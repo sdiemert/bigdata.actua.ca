@@ -1,0 +1,198 @@
+<html>
+	<head>
+        <title>Actua Bigdata App - Students</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script src="app.js"></script>
+
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-64193734-1', 'auto');
+          ga('send', 'pageview');
+
+        </script>
+		<script type="text/javascript">
+			var rowCount = 1; 
+			function addNewRow(){
+				rowCount++; 
+				var s = "<tr id='input-row-"+rowCount+"'>";
+				s+= "<td id='attr-"+rowCount+"-1-data'><input type='text'/></td>"
+				s+= "<td id='attr-"+rowCount+"-2-data'><input type='text'/></td>"
+				s+= "<td id='attr-"+rowCount+"-3-data'><input type='text'/></td>"
+				s+= "<td id='class-"+rowCount+"'><input type='text'/></td>"
+				s+= "<td id='remove-"+rowCount+"'><button type='button' class='close' onclick='removeRow("+rowCount+");'>"
+				s+= "<span>&times</span>"; 
+				s+= "</td>"; 
+				s+= "</tr>";
+				$("#input-table").append(s);
+			}
+
+            function cleanInput(val){
+
+                //detects whitespace, commas, hyphens, underscores
+                var reg = new RegExp("\\s|\\,|-|\\_", "gi");
+                val = val.toLowerCase();
+
+                if(!reg.test(val)){
+                
+                    return val;
+
+                }
+
+                alert("You have entered data with invalid characters (whitespace, commas, hyphens, or underscore). Please remove these characters from your input. We suggest you use single words to describe attributes.");
+                throw new Error("Invalid characters detected!");
+
+            }
+
+			function submit(){
+
+				var obj = [];
+
+				for(var i = 1; i <= rowCount; i++){
+
+					var d1 = $("#attr-"+i+"-1-data input").val();
+					var d2 = $("#attr-"+i+"-2-data input").val();
+					var d3 = $("#attr-"+i+"-3-data input").val();
+					var clas = $("#class-"+i+" input").val();
+					var code = $("#code").val(); 
+
+					console.log(d1); 
+					console.log(d2); 
+					console.log(d3); 
+					console.log(code); 
+					console.log(clas); 
+
+                    d1 = cleanInput(d1)
+                    d2 = cleanInput(d2)
+                    d3 = cleanInput(d3)
+                    clas = cleanInput(clas)
+
+
+
+					if(code && d1 && d2 && d3 && clas){
+
+						obj.push({
+
+							code : code, 
+							attr1 : d1, 
+							attr2 : d2, 
+							attr3 : d3,
+							"class" : clas
+
+						});
+
+					}else{
+
+					}
+
+				}
+
+				try{
+					obj = JSON.stringify(obj);
+				}catch(e){
+
+					console.log("JSON PARSE ERROR: "+ e);
+					obj = "";
+
+				}
+
+				$.ajax({
+
+					type		: "POST",
+					url			: hostaddr+"/data/"+code,
+		            //contentType : "application/json",
+		            //dataType	: "json",
+		            data 		:  obj,
+		            success 	: function(data){
+
+		            	console.log("DATA FINISHED!")
+						window.location.replace("student_done.html"); 
+
+	                },
+
+	                error: function (xhr, status, error) {
+	                	console.log("Status:" + status);
+					    console.log('Error: ' + error.message);
+					    console.log(error.stack);
+						window.location.replace("student_done.html"); 
+					}
+
+				});
+
+			}
+
+			function setup(){
+				$("#danger").hide(); 
+				$("#success").hide(); 
+			}
+
+			function removeRow(x){
+				console.log("remove("+x+")"); 
+				$("#input-row-"+x).remove(); 
+			}
+
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div class='row' style="height:20%;"></div>
+			<div class="row">
+				<div class='col-sm-2'>
+					<div id="success" class="alert alert-success" role="alert">
+						  Data was sent to the server!
+					</div>
+					<div id="danger" class="alert alert-danger" role="alert">
+						Please fill out the code and attributes fields
+					</div>
+				</div>
+				<div class='col-sm-8'>
+					<form id="input-form">
+						<div class="input-group input-group-lg">
+						  	<span class="input-group-addon" id="sizing-addon1">Code</span>
+							<input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon1" id="code">
+						</div>
+
+						<table class='table'>
+							<tr>
+							   	<th><h4 id="attr-1">Attribute 1</h4></th>
+							   	<th><h4 id="attr-2">Attribute 2</h4></th>
+							   	<th><h4 id="attr-3">Attribute 3</h4></th>
+							   	<th><h4 id="class">Class</h4></th>
+							</tr>
+							<tbody id="input-table">
+								<tr id="input-row-1">
+									<td id='attr-1-1-data'><input type='text'/></td>
+									<td id='attr-1-2-data'><input type='text'/></td>
+									<td id='attr-1-3-data'><input type='text'/></td>
+									<td id='class-1'><input type='text'/></td>
+									<td id='remove-1'><button type="button" class="close" onclick="removeRow(1);">
+										<span>&times</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+				<div class='col-sm-2'>
+				</div>
+			</div>		
+			<div class='row' style="">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-7">
+					<button class="btn btn-warning" onclick="addNewRow();">New Data</button>
+				</div>
+				<div class="col-sm-2">
+					<button class='btn btn-success' onclick="submit();">Submit</button>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			setup(); 
+		</script>
+	</body>
+</html>

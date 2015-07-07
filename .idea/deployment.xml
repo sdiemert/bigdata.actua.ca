@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="bigdata.actua.ca">
+    <serverData>
+      <paths name="bigdata.actua.ca">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/CSEducationTools/datamining/dataminingapp" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath path="/CSEducationTools/datamining/dataminingapp/node_modules" />
+            <excludedPath local="true" path="$PROJECT_DIR$/node_modules" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

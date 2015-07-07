@@ -1,0 +1,1 @@
+{ "options" : { "create" : "tuples" }, "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "datamining.tuples", "name" : "_id_" } ] }
