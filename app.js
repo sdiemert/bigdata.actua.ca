@@ -1,6 +1,6 @@
 var express = require("express");
 var app = express(); 
-var async = require("async"); 
+var async = require("async");
 var db = require("mongojs")("mongodb://localhost/datamining", ["tuples", "classifier"]);
 var util = require('util');
 
@@ -8,6 +8,7 @@ var logger = require("./lib/logger.js").Logger('app.js', false);
 
 logger.info("Starting...");
 
+/*
 db.on("ready", function(){
 	logger.info("Connected to MongoDB"); 
 });
@@ -15,6 +16,7 @@ db.on("ready", function(){
 db.on('error',function(err) {
     logger.info('database error: %s', err);
 });
+*/
 
 
 //Expects attributes to be given in the query field of the request.
