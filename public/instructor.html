@@ -30,47 +30,6 @@
             var className = $("#code").val();
 
             if (className) {
-                /*
-                 var xmlhttp = new XMLHttpRequest();
-                 xmlhttp.open("POST",hostaddr+"/classifier/"+className);
-                 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                 xmlhttp.onerror = function(){
-
-                 $("#danger").hide();
-                 $("#success").hide();
-                 $("#warn").hide();
-                 $("#error").show();
-
-                 };
-                 xmlhttp.onreadystatechange = function(){
-
-                 if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
-
-                 $("#success").show();
-                 $("#danger").hide();
-                 $("#warn").hide();
-                 $("#error").hide();
-
-                 }else if(xmlhttp.readyState === 4 && xmlhttp.status === 403){
-
-                 $("#danger").hide();
-                 $("#success").hide();
-                 $("#warn").show();
-                 $("#error").hide();
-
-                 }else{
-
-                 $("#danger").hide();
-                 $("#success").hide();
-                 $("#warn").hide();
-                 $("#error").show();
-
-                 }
-
-                 };
-                 xmlhttp.send();
-
-                 */
                 $.ajax(hostaddr + '/classifier/' + className, {
                     method: 'POST',
                     headers: {
