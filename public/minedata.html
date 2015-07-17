@@ -1,240 +1,252 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-        <title>Actua Bigdata App - Dataming Mining</title>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-		<script src="app.js"></script>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Actua Bigdata App - Data Mining</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="app.js"></script>
 
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-          ga('create', 'UA-64193734-1', 'auto');
-          ga('send', 'pageview');
+        ga('create', 'UA-64193734-1', 'auto');
+        ga('send', 'pageview');
 
-        </script>
+    </script>
 
-		<!-- Script that does the data mining -->
-		<script src="js/minedata.js"></script>
+    <!-- Script that does the data mining -->
+    <script src="js/minedata.js"></script>
 
-		<script type="text/javascript">
+    <script type="text/javascript">
 
-			classCount = 1; 
+        classCount = 1;
 
-			function getData(){
-				var code = $("#code").val(); 	
+        function getData() {
+            var code = $("#code").val();
 
-				if(code){
+            if (code) {
 
-					$("#invalid-code-message").hide();
-			        $("#classifier-wrapper").hide();
-			        $("#data-wrapper").hide();
+                $("#invalid-code-message").hide();
+                $("#classifier-wrapper").hide();
+                $("#data-wrapper").hide();
 
-			        $("#bumper").css("height", "35%");
+                $("#bumper").css("height", "35%");
 
-					loadData(code); 
+                loadData(code);
 
-				}
-			}
+            }
+        }
 
-			function runClassifier(){
+        function runClassifier() {
 
-				var v1 = $("#val1").val(); 
-				var v2 = $("#val2").val(); 
-				var v3 = $("#val3").val(); 
+            var v1 = $("#val1").val();
+            var v2 = $("#val2").val();
+            var v3 = $("#val3").val();
 
-				var result = null; 
+            var result = null;
 
-				console.log(v1, v2, v3); 
-				if(v1 && v2 && v3){
-					result = mineData(v1, v2, v3); 
-				}
+            console.log(v1, v2, v3);
+            if (v1 && v2 && v3) {
+                result = mineData(v1, v2, v3);
+            }
 
-				if(result){
-					var max = Number.MIN_VALUE; 
-					var maxIndex = -1; 	
+            if (result) {
+                var max = Number.MIN_VALUE;
+                var maxIndex = -1;
 
-					for(var i = 0; i < result[0].length; i++){
+                for (var i = 0; i < result[0].length; i++) {
 
-						if( result[0][i].total >= max ){
+                    if (result[0][i].total >= max) {
 
-							maxIndex = i; 	
-							max = result[0][i].total; 
+                        maxIndex = i;
+                        max = result[0][i].total;
 
-						}
-					}	
+                    }
+                }
 
-					if(maxIndex != -1){
+                if (maxIndex != -1) {
 
-						$("#classify-button-cell").hide(); 
-						$("#result").val(result[0][maxIndex].name); 
-						$("#result").show(); 
-						$("#stats-button-wrapper").show(); 
-						$("#stats-button").click(showStats);
+                    $("#classify-button-cell").hide();
+                    $("#result").val(result[0][maxIndex].name).show();
+                    $("#stats-button-wrapper").show();
+                    $("#stats-button").click(showStats);
 
-						$("#val1").change(setupReClassify);
-						$("#val2").change(setupReClassify);
-						$("#val3").change(setupReClassify);
-					}
+                    $("#val1").change(setupReClassify);
+                    $("#val2").change(setupReClassify);
+                    $("#val3").change(setupReClassify);
+                }
 
-					genStats(result[0], result[1]);
-				}
+                genStats(result[0], result[1]);
+            }
 
-			}
+        }
 
-			function setupReClassify(){
+        function setupReClassify() {
 
-				$("#classify-button-cell").show();
-				$("#result").hide();
-				$("#stats-panel").hide(); 
-				$("#stats-button-wrapper").hide(); 
+            $("#classify-button-cell").show();
+            $("#result").hide();
+            $("#stats-panel").hide();
+            $("#stats-button-wrapper").hide();
 
 
-			}
+        }
 
-			function genStats(classes, inputs){
+        function genStats(classes, inputs) {
 
-				var s = ""; 
+            var s = "";
 
-				for(var i = 0; i < classes.length; i++){
-					s += "<tr>"; 
-					s += "<td>P(class='"+classes[i].name+"')</td>"
-					s += "<td>"+Math.round(classes[i].pc * 100)/100+"</td>"
-					s += '</tr>';
-				}
+            for (var i = 0; i < classes.length; i++) {
+                s += "<tr>";
+                s += "<td>P(class='" + classes[i].name + "')</td>"
+                s += "<td>" + Math.round(classes[i].pc * 100) / 100 + "</td>"
+                s += '</tr>';
+            }
 
-				for( var i = 0; i < inputs.length; i++){
+            for (var i = 0; i < inputs.length; i++) {
 
-					for(var j = 0; j < classes.length; j++){
-						s += "<tr>"; 
-						s += "<td>P( item_"+(i+1)+" = '"+inputs[i].value+"' | class='"+classes[j].name+"')</td>"
-						s += "<td>"+Math.round(inputs[i].givens[classes[j].name] * 100)/100+"</td>"
-						s += '</tr>';
-					}
-				}
+                for (var j = 0; j < classes.length; j++) {
+                    s += "<tr>";
+                    s += "<td>P(item_" + (i + 1) + " = '" + inputs[i].value + "' | class='" + classes[j].name + "')</td>"
+                    s += "<td>" + Math.round(inputs[i].givens[classes[j].name] * 100) / 100 + "</td>"
+                    s += '</tr>';
+                }
+            }
 
-				for(var i = 0; i < classes.length; i++){
-					s += "<tr>"; 
-					s += "<td><b>P(class='"+classes[i].name+"' | item_1 = '"+inputs[0].value+"', item_2 = '"+inputs[1].value+"', item_3 = '"+inputs[2].value+"')</b></td>"
-					s += "<td><b>"+Math.round(classes[i].total * 100)/100+"</b></td>"
-					s += '</tr>';
-				}
+            for (var i = 0; i < classes.length; i++) {
+                s += "<tr>";
+                s += "<td><b>P(class='" + classes[i].name + "' | item_1 = '" + inputs[0].value + "', item_2 = '" + inputs[1].value + "', item_3 = '" + inputs[2].value + "')</b></td>"
+                s += "<td><b>" + Math.round(classes[i].total * 100) / 100 + "</b></td>"
+                s += '</tr>';
+            }
 
-				$("#stats-table").empty(); 
-				$("#stats-table").append(s); 
-			}
+            $("#stats-table").empty().append(s);
+        }
 
-			function showStats(){
-				$('#stats-panel').show();
-				$("#stats-button").text("Hide Stats");
-				$("#stats-button").click(hideStats);
-			}
+        function showStats() {
+            $('#stats-panel').show();
+            $("#stats-button").text("Hide Stats").click(hideStats);
+        }
 
-			function hideStats(){
-				$('#stats-panel').hide();
-				$("#stats-button").text("Show Stats");
-				$("#stats-button").click(showStats);
-			}
+        function hideStats() {
+            $('#stats-panel').hide();
+            $("#stats-button").text("Show Stats").click(showStats);
+        }
 
-		</script>
+    </script>
 
-	</head>
-	<body>
-		<div class="container">
-			<div class="row" id="bumper" style="height:35%;">
-			</div>
-			<div class='row' style="">
-				<div class='col-sm-3'></div>
-				<div class="center-block col-sm-6">
-					<form id="input-form">
-						<div class="input-group input-group-lg">
-						  	<span class="input-group-addon" id="sizing-addon1">Code</span>
-							<input type="text" autofocus="autofocus" class="form-control" placeholder="" aria-describedby="sizing-addon1" id="code">
+</head>
+<body>
+<div class="container" id="app-body">
+    <div class="row" id="bumper" style="height:35%;">
+    </div>
+    <div class="row" style="">
+        <div class="col-sm-3"></div>
+        <div class="center-block col-sm-6">
+            <form id="input-form">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="sizing-addon1">Code</span>
+                    <input type="text" autofocus="autofocus" class="form-control" placeholder=""
+                           aria-describedby="sizing-addon1" id="code">
 							<span class="input-group-btn">
 						        <button class="btn btn-success" onclick="getData();" type="button">Load Data</button>
 						    </span>
-						</div>
-					</form>
-				</div>
-				<div class='col-sm-3'></div>
-			</div>	
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
 
-			<div class='row' style="">
-				<div class='col-sm-3'></div>
-				<div class="center-block col-sm-6">
-					<div id='invalid-code-message' class="alert alert-danger" role="alert" hidden>
-						<p>Opps! We couldn't find that code in the database. Please try a different code. </p>	
-					</div>
-				</div>
-				<div class='col-sm-3'></div>
-			</div>	
-				
-
-			<div class='row' id="classifier-wrapper" hidden>
-				<div class='col-sm-2'></div>
-				<div class='col-sm-8'>
+    <div class="row" style="">
+        <div class="col-sm-3"></div>
+        <div class="center-block col-sm-6">
+            <div id="invalid-code-message" class="alert alert-danger" role="alert" hidden>
+                <p>Oops! We couldn't find that code in the database. Please try a different code. </p>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
 
 
+    <div class="row" id="classifier-wrapper" hidden>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
 
-					<h3> Classify A New Tuple</h3>
-					<!--<form id="">-->
-						<table class='table'>
-							<tr>
-							   	<th><h4 id="">Attribute 1</h4></th>
-							   	<th><h4 id="">Attribute 2</h4></th>
-							   	<th><h4 id="">Attribute 3</h4></th>
-							   	<th><h4 id="result-title">Predicted</h4></th>
-							   	<th><h4 id=""></h4></th>
-							</tr>
-							<tbody id="input-table">
-								<tr id="input-row-1">
-									<td ><input id='val1' type='text' size='10'/></td>
-									<td ><input id='val2' type='text'size='10'/></td>
-									<td ><input id='val3' type='text'size='10'/></td>
-									<td id="classify-button-cell"><button id="classify-button" class='btn btn-warning' onclick="runClassifier();">Classify</button></td>
-									<td><input id='result' disabled value="" hidden size="12"/></td>
-									<td id="stats-button-wrapper" hidden><button id="stats-button" class='btn'>See Stats</button></td>
-								</tr>
-							</tbody>
-						</table>
-					<!--</form>-->
-					
-		
-					<div hidden id='stats-panel' class="panel panel-default">
-					  <div class="panel-body">
-					  	<h4>Naive Bayes Classifier Statistics</h4>
-					  	<p>The following is the break down of the values calculated by the classifier: </p> 
-						<table class='table'>
-							<tbody id='stats-table'>
-							</tbody>
-						</table>
-					  </div>
-					</div>
-				</div>
-				<div class='col-sm-2'></div>
-			</div>
 
-			<div class='row' id='data-wrapper' hidden>
-				<div class='col-sm-2'></div>
-				<div class='col-sm-8'>
+            <h3> Classify A New Tuple</h3>
+            <!--<form id="">-->
+            <table class="table">
+                <tr>
+                    <th><h4>Attribute 1</h4></th>
+                    <th><h4>Attribute 2</h4></th>
+                    <th><h4>Attribute 3</h4></th>
+                    <th><h4 id="result-title">Predicted</h4></th>
+                    <th><h4></h4></th>
+                </tr>
+                <tbody id="input-table">
+                <tr id="input-row-1">
+                    <td><input id="val1" type="text" size="10"/></td>
+                    <td><input id="val2" type="text" size="10"/></td>
+                    <td><input id="val3" type="text" size="10"/></td>
+                    <td id="classify-button-cell">
+                        <button id="classify-button" class="btn btn-warning" onclick="runClassifier()">Classify
+                        </button>
+                    </td>
+                    <td><input id="result" disabled value="" hidden size="12" /></td>
+                    <td id="stats-button-wrapper" hidden>
+                        <button id="stats-button" class="btn">See Stats</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--</form>-->
 
-					<h3>Data Set:</h3>
 
-					<table class='table'>
-						<tr>
-						   	<th><h4 id="attr-1">Attribute 1</h4></th>
-						   	<th><h4 id="attr-2">Attribute 2</h4></th>
-						   	<th><h4 id="attr-3">Attribute 3</h4></th>
-						   	<th><h4 id="class">Class</h4></th>
-						</tr>
-						<tbody id='data-table'></tbody> <!--this element gets populated by js/minedata.js -->
-					</table>
-				</div>
-				<div class='col-sm-2'></div>
-			</div>
-		</div>
-	</body>
+            <div hidden id="stats-panel" class="panel panel-default">
+                <div class="panel-body">
+                    <h4>Naive Bayes Classifier Statistics</h4>
+
+                    <p>The following is the break down of the values calculated by the classifier: </p>
+                    <table class="table">
+                        <tbody id="stats-table">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <div class="row" id="data-wrapper" hidden>
+
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+
+            <h3>Data Set:</h3>
+
+            <table class="table">
+                <tr>
+                    <th><h4 id="attr-1">Attribute 1</h4></th>
+                    <th><h4 id="attr-2">Attribute 2</h4></th>
+                    <th><h4 id="attr-3">Attribute 3</h4></th>
+                    <th><h4 id="class">Class</h4></th>
+                </tr>
+                <tbody id="data-table"></tbody>
+                <!--this element gets populated by js/minedata.js -->
+            </table>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</div>
+</body>
 </html>
