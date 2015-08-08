@@ -1,46 +1,76 @@
 var express = require("express");
-var app = express(); 
-var async = require("async");
-var db = require("mongojs")("mongodb://localhost/datamining", ["tuples", "classifier"]);
-var util = require('util');
-
-var logger = require("./lib/logger.js").Logger('app.js', false);
+var app     = express();
+var async   = require("async");
+var db      = require("mongojs")("mongodb://localhost/datamining", ["tuples", "classifier"]);
+var util    = require('util');
+var hbs     = require('hbs');
+var logger  = require("./lib/logger.js").Logger('app.js', false);
 
 logger.info("Starting...");
 
-/*
-db.on("ready", function(){
-	logger.info("Connected to MongoDB"); 
+//set view manager to Handlebar.js
+app.set('view engine', 'hbs');
+hbs.registerPartials(__dirname + '/views/partials');
+hbs.registerHelper('json', function (data) {
+    return JSON.stringify(data);
 });
 
-db.on('error',function(err) {
-    logger.info('database error: %s', err);
-});
-*/
+//Loggin for each request.
+app.use(require('morgan')('dev'));
 
+//set up public directory to hold assets.
+app.use('/public', require('serve-static')('public'));
 
 //Expects attributes to be given in the query field of the request.
 
-app.post("/classifier/:id", function(req, res){
+app.get("/", function(req, res){
+    res.render('index', {});
+});
 
-	//1. Check that this classifier doesn't exists....
-	//    - Not currently implemented. 
-	//2. Push the entry into the database. 
+app.get("/index", function(req, res){
+    res.render('index', {});
+});
 
-	logger.warn("POST: /classifier/"+req.params.id);
+app.get("/minedata", function(req, res){
+    res.render('minedata', {});
+});
+
+app.get("/student", function(req, res){
+    res.render('student', {});
+});
+
+app.get("/student_done", function(req, res){
+    res.render('student_done', {});
+});
+
+app.get("/instructor", function(req, res){
+    res.render('instructor', {});
+});
+
+app.get("/maintenance", function(req, res){
+    res.render('maintenance', {});
+});
+
+app.route("/classifier/:id").post(function (req, res) {
+
+    //1. Check that this classifier doesn't exists....
+    //    - Not currently implemented.
+    //2. Push the entry into the database.
+
+    logger.warn("POST: /classifier/" + req.params.id);
 
     db.classifier.find(
         {
-            "classifier" : req.params.id
+            "classifier": req.params.id
         },
-        function(err, data){
+        function (err, data) {
 
-            if(err){
+            if (err) {
                 logger.error(err);
                 res.status(500);
                 return res.send("ERROR!");
             }
-            if(data.length > 0){
+            if (data.length > 0) {
 
                 res.status(403);
                 return res.send("CLASSIFIER EXISTS");
@@ -50,11 +80,11 @@ app.post("/classifier/:id", function(req, res){
             db.classifier.insert(
                 {
                     "classifier": req.params.id,
-                    "attributes" : req.query.attr
+                    "attributes": req.query.attr
                 },
-                function(err, data){
+                function (err, data) {
 
-                    if(err){
+                    if (err) {
                         logger.error(err);
                         res.status(500);
                         return res.send("ERROR");
@@ -72,142 +102,141 @@ app.post("/classifier/:id", function(req, res){
 });
 
 
-app.get("/data/:id", function(req, res){
+app.get("/data/:id", function (req, res) {
 
-	logger.warn("GET: /data/"+req.params.id);
+    logger.warn("GET: /data/" + req.params.id);
 
-	var result = []; 
-	var flag = false; 
-	setTimeout(function(){
-		if(!flag){
-			res.status(408);
-			res.send("TIMEOUT!"); 
-		}
-	}, 3000); 
+    var result = [];
+    var flag   = false;
+    setTimeout(function () {
+        if (!flag) {
+            res.status(408);
+            res.send("TIMEOUT!");
+        }
+    }, 3000);
 
-	async.each(
-		[req.params.id],
-		function(item, callback){
-				db.tuples.find({"classifier" : item}, function(err, data){
+    async.each(
+        [req.params.id],
+        function (item, callback) {
+            db.tuples.find({"classifier": item}, function (err, data) {
 
-				if( data.length <= 0 ){
+                if (data.length <= 0) {
 
-					//logger.info(util.inspect(data, false, null));
+                    //logger.info(util.inspect(data, false, null));
 
-					result.push([]);
-					return callback(204); //respond with no-data
+                    result.push([]);
+                    return callback(204); //respond with no-data
 
-				}else{
+                } else {
 
-					result.push(data); 
-					return callback(); //indicate we are done to the async library.
+                    result.push(data);
+                    return callback(); //indicate we are done to the async library.
 
-				}
+                }
 
-				
-			}); 
-		},
-		function(err){
 
-			if(err){
+            });
+        },
+        function (err) {
 
-				flag = true; 
+            if (err) {
 
-				if( err === 204 ){
+                flag = true;
 
-					res.status(204);
-					return res.send("NO DATA");
+                if (err === 204) {
 
-				}else{
+                    res.status(204);
+                    return res.send("NO DATA");
 
-					res.status(500);
-					return res.send("ERROR");
+                } else {
 
-				}
+                    res.status(500);
+                    return res.send("ERROR");
 
-			}
+                }
 
-			res.status(200);
-			flag = true; 
-			return res.send	(JSON.stringify(result)); 
-		} 
-	);
+            }
+
+            res.status(200);
+            flag = true;
+            return res.send(JSON.stringify(result));
+        }
+    );
 });
 
 
 /*
-* Takes in a classifier_id (via url REST) and then a 
-* sequence of values via the "query" of the req. 
-* 
-* 1. Push the data in the into Mongo.tuples using the keys 
-*     of the query as the keys into Mongo. 
-* 2. Craft response message. 
-*/
-app.post("/data/:id", function(req, res){
+ * Takes in a classifier_id (via url REST) and then a
+ * sequence of values via the "query" of the req.
+ *
+ * 1. Push the data in the into Mongo.tuples using the keys
+ *     of the query as the keys into Mongo.
+ * 2. Craft response message.
+ */
+app.post("/data/:id", function (req, res) {
 
-	logger.warn("POST: /data/"+req.params.id);
+    logger.warn("POST: /data/" + req.params.id);
 
-	var fromClient = ""; 
+    var fromClient = "";
 
-	req.on('data', function(d){
+    req.on('data', function (d) {
 
-		fromClient += d; 
+        fromClient += d;
 
-	});
+    });
 
-	req.on('end', function(){
+    req.on('end', function () {
 
-		try{
+        try {
 
-			fromClient = JSON.parse(fromClient);
-
-
-			async.each(
-				fromClient,
-				function(item, cb){
-
-						db.tuples.insert(
-						{
-							"classifier" : req.params.id, 
-							"data" 		 : item,  
-						},
-						function(err, data){
-
-							if(err){
-
-								cb();
-
-							}; 
-
-							cb(); 
-						}
-					);
-
-				}, function(err){
-
-					res.status(200);
-					return res.send(); 
-
-				}
-			);
-			
-
-		}catch(e){
-
-			res.status(400);
-			return res.send("COULD NOT PARSE INPUT");
-
-		}
-
-	});
+            fromClient = JSON.parse(fromClient);
 
 
-}); 
+            async.each(
+                fromClient,
+                function (item, cb) {
 
-var server = app.listen(3000, '0.0.0.0', function(){
-	var host = server.address().address; 
-	var port = server.address().port; 
-	logger.info("App running at: http://"+host+":"+port); 
-}); 
+                    db.tuples.insert(
+                        {
+                            "classifier": req.params.id,
+                            "data"      : item,
+                        },
+                        function (err, data) {
 
-app.use(express.static("public")); 
+                            if (err) {
+
+                                cb();
+
+                            }
+                            ;
+
+                            cb();
+                        }
+                    );
+
+                }, function (err) {
+
+                    res.status(200);
+                    return res.send();
+
+                }
+            );
+
+
+        } catch (e) {
+
+            res.status(400);
+            return res.send("COULD NOT PARSE INPUT");
+
+        }
+
+    });
+
+
+});
+
+var server = app.listen(3000, '0.0.0.0', function () {
+    var host = server.address().address;
+    var port = server.address().port;
+    logger.info("App running at: http://" + host + ":" + port);
+});

@@ -1,5 +1,5 @@
-var hostname = "bigdata.actua.ca";
-var port = null;
+var hostname = "0.0.0.0";
+var port = 3000;
 
 var hostaddr = "http://"+hostname;
 
