@@ -10,3 +10,7 @@ body {
 #app-body {
 	height: 100%;
 }
+
+#data-wrapper {
+	max-width:1175px;
+}
