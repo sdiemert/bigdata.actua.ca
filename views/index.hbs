@@ -1,6 +1,11 @@
 <html>
 {{> head}}
 <script>
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
     function showPanel(name) {
 
         $("#what-panel").hide();
@@ -98,19 +103,19 @@
         <div class="center-block col-md-6">
             <a href='student'>
                 <button type="button" style="background-color:#6FBF51;color:white;"
-                        class="main-button main-button-lg btn btn-success btn-lg btn-block">Students
+                        class="main-button main-button-lg btn btn-success btn-lg btn-block" data-toggle="tooltip" data-placement="top" title="Click here to submit new data!">Students
                 </button>
             </a>
             <div class="button-spacer"></div>
             <a href='instructor'>
                 <button type="button" style="background-color:#FF9900;color:white;"
-                        class="main-button main-button-lg btn btn-lg btn-block">Instructors
+                        class="main-button main-button-lg btn btn-lg btn-block" data-toggle="tooltip" data-placement="top" title="Click here to create a new data set and classifier.">Instructors
                 </button>
             </a>
             <div class="button-spacer"></div>
             <a href='minedata'>
                 <button type="button" style="background-color:#FF4791;color:white;"
-                        class="main-button main-button-lg btn btn-lg btn-block">Mine Data
+                        class="main-button main-button-lg btn btn-lg btn-block" data-toggle="tooltip" data-placement="top" title="Click here to create view a data set and mine the data!">Mine Data
                 </button>
             </a>
         </div>
