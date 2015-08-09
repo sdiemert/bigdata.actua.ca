@@ -127,7 +127,7 @@
     <div class="row" style="">
         <div class="col-xs-3"></div>
         <div class="center-block col-xs-6">
-            <form id="input-form">
+            <form id="input-form" onkeypress="return event.keyCode !== 13;">
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="sizing-addon1">Code</span>
                     <input type="text" autofocus="autofocus" class="form-control" placeholder=""
@@ -223,5 +223,20 @@
 
     </div>
 </div>
+<script>
+
+    //bind the enter key to the code input field.
+    //see http://stackoverflow.com/questions/5943954/bind-textbox-to-enter-key
+
+    $("#code").keypress(function(ev){
+        console.log(ev);
+        if(ev.which === 13){
+
+            console.log("enter hit!");
+            getData();
+
+        }
+    });
+</script>
 </body>
 </html>
