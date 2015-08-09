@@ -14,3 +14,19 @@ body {
 #data-wrapper {
 	max-width:1175px;
 }
+
+.main-button {
+    height:75px;
+}
+
+.main-button-md {
+    height:96px;
+}
+
+.main-button-lg {
+    height : 83px;
+}
+
+.button-spacer{
+    height:20px;
+}

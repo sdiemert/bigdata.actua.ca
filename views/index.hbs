@@ -1,21 +1,119 @@
 <html>
-    {{> head}}
-	<body>
-		<div class="container">
-			<div class="row" style="height:35%;">
-			</div>
-			<div class='row' style="">
-				<div class='col-sm-3'>
-				</div>
-				<div class="center-block col-sm-6">
-					<a href='student'><button type="button"  style="background-color:#6FBF51;color:white;"class="btn btn-success btn-lg btn-block">Students</button></a>
-					<br>
-					<a href='instructor'><button type="button"style="background-color:#FF9900;color:white;" class="btn btn-lg btn-block">Instructors</button></a>
-					<br>
-					<a href='minedata'><button type="button" style="background-color:#FF4791;color:white;" class="btn btn-lg btn-block">Mine Data</button></a>
-				</div>
-				<div class='col-sm-3'></div>
-			</div>	
-		</div>
-	</body>
+{{> head}}
+<script>
+    function showPanel(name) {
+
+        $("#what-panel").hide();
+        $("#who-panel").hide();
+        $("#how-panel").hide();
+
+        $("#what-panel-toggle").removeClass('active');
+        $("#who-panel-toggle").removeClass('active');
+        $("#how-panel-toggle").removeClass('active');
+
+        $("#" + name).show();
+        $("#" + name + "-toggle").addClass('active');
+
+    }
+
+    function adjustButtons() {
+
+        //xs : width < 768 px
+        //sm : width < 992 px
+        //md : width < 1200 px
+        //lg : width > 1200 px
+
+        //Calculate how tall the buttons should be based on the info panel size.
+        //height of button-spacers is 20 px each, there are 2 total, hence -40.
+
+        var h = ($("#info-panel").height() - 40)/3;
+
+        $(".main-button").css('height', h+"px");
+
+    }
+
+</script>
+<body>
+<div class="container">
+    <div class="row" style="height:35%;">
+    </div>
+    <div class='row' style="">
+        <div class='col-md-6'>
+            <div id='info-panel' class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Welcome to Acuta's Bigdata App!</h3>
+                    <hr>
+                    <div class="row">
+
+                        <div class="col-xs-3" style="min-width:100px">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li role="presentation" id="what-panel-toggle" class="active"><a
+                                        onclick="showPanel('what-panel');" href="#">What</a></li>
+                                <li role="presentation" id="who-panel-toggle" class=""><a
+                                        onclick="showPanel('who-panel');" href="#">Who</a></li>
+                                <li role="presentation" id="how-panel-toggle" class=""><a
+                                        onclick="showPanel('how-panel');" href="#">How</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="col-sm-8">
+                            <div id="what-panel">
+
+                                <p>Bigdata is a web application design by <a href="http://actua.ca">Actua</a> as part of
+                                    the <a href="http://www.actua.ca/codemakers/">Google Code Makers Project</a> to
+                                    support Computer Science education in Canada.</p>
+
+                                <p>The Bigdata application provides a platform to experiment with the concepts of data
+                                    analysis and data mining!</p>
+
+                                <p>To learn more about Bigdata, see our <a href="#">tutorial video</a></p>
+
+                            </div>
+                            <div id="who-panel" hidden="true">
+
+                                <p>Something about who runs the Big Data App</p>
+
+                            </div>
+                            <div id="how-panel" hidden="true">
+
+                                <p>Something about How the big data app works!</p>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="center-block col-md-6">
+            <a href='student'>
+                <button type="button" style="background-color:#6FBF51;color:white;"
+                        class="main-button main-button-lg btn btn-success btn-lg btn-block">Students
+                </button>
+            </a>
+            <div class="button-spacer"></div>
+            <a href='instructor'>
+                <button type="button" style="background-color:#FF9900;color:white;"
+                        class="main-button main-button-lg btn btn-lg btn-block">Instructors
+                </button>
+            </a>
+            <div class="button-spacer"></div>
+            <a href='minedata'>
+                <button type="button" style="background-color:#FF4791;color:white;"
+                        class="main-button main-button-lg btn btn-lg btn-block">Mine Data
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    $(window).resize(function () {
+        adjustButtons();
+    });
+
+    adjustButtons(); //call this once so that the correct size is chosen for the buttons
+</script>
 </html>
