@@ -30,3 +30,9 @@ body {
 .button-spacer{
     height:20px;
 }
+
+#info-panel {
+    height:350px;
+    max-height:350px;
+    min-height:200px;
+}
