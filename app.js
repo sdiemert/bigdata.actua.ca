@@ -10,7 +10,7 @@ var logger  = require("./lib/logger.js").Logger('app.js', false);
 
 var defaultResponse = {
     hostname: process.env.HOSTNAME || "0.0.0.0",
-    port    : process.env.PORT || "3000"
+    port    : process.env.PORT || null
 };
 
 logger.info("Starting...");
