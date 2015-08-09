@@ -124,53 +124,45 @@
 <div class="container">
     <div class='row' style="height:20%;"></div>
     <div class="row">
-        <div class='col-sm-2'>
-            <div id="success" class="alert alert-success" role="alert">
-                Data was sent to the server!
-            </div>
-            <div id="danger" class="alert alert-danger" role="alert">
-                Please fill out the code and attributes fields
-            </div>
-        </div>
-        <div class='col-sm-8'>
+        <div class='col-xs-12'>
             <form id="input-form">
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="sizing-addon1">Code</span>
                     <input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon1" id="code">
                 </div>
 
-                <table class='table'>
-                    <tr>
-                        <th><h4 id="attr-1">Attribute 1</h4></th>
-                        <th><h4 id="attr-2">Attribute 2</h4></th>
-                        <th><h4 id="attr-3">Attribute 3</h4></th>
-                        <th><h4 id="class">Class</h4></th>
-                    </tr>
-                    <tbody id="input-table">
-                    <tr id="input-row-1">
-                        <td id='attr-1-1-data'><input type='text'/></td>
-                        <td id='attr-1-2-data'><input type='text'/></td>
-                        <td id='attr-1-3-data'><input type='text'/></td>
-                        <td id='class-1'><input type='text'/></td>
-                        <td id='remove-1'>
-                            <button type="button" class="close" onclick="removeRow(1);">
-                                <span>&times</span>
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <br>
+
+                <div class="table-responsive">
+                    <table class='table input-table'>
+                        <tr>
+                            <th><h4 id="attr-1">Attribute 1</h4></th>
+                            <th><h4 id="attr-2">Attribute 2</h4></th>
+                            <th><h4 id="attr-3">Attribute 3</h4></th>
+                            <th><h4 id="class">Class</h4></th>
+                        </tr>
+                        <tbody id="input-table">
+                        <tr id="input-row-1">
+                            <td id='attr-1-1-data'><input type='text'/></td>
+                            <td id='attr-1-2-data'><input type='text'/></td>
+                            <td id='attr-1-3-data'><input type='text'/></td>
+                            <td id='class-1'><input type='text'/></td>
+                            <td id='remove-1' class="remove-button">
+                                <button type="button" class="close" onclick="removeRow(1);">
+                                    <span>&times</span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </form>
-        </div>
-        <div class='col-sm-2'>
         </div>
     </div>
     <div class='row' style="">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-7">
+        <div class="col-xs-4">
             <button class="btn btn-warning" onclick="addNewRow();">New Data</button>
-        </div>
-        <div class="col-sm-2">
+            <a href="/"><button class="btn btn-danger">Home</button></a>
             <button class='btn btn-success' onclick="submit();">Submit</button>
         </div>
     </div>

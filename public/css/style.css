@@ -36,3 +36,16 @@ body {
     max-height:350px;
     min-height:200px;
 }
+
+.input-table th {
+    border-top:none !important;
+}
+
+.input-table th,
+.input-table td input{
+    width:150px;
+}
+
+.input-table .remove-button {
+    width:25px;
+}
