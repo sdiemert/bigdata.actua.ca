@@ -2,7 +2,6 @@
     <link rel="stylesheet" type="text/css" href="/public/css/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/public/css/style.css">
     <script src="/public/js/jquery.min.js"></script>
-    <script src="/public/app.js"></script>
     <title>Actua Bigdata App</title>
     <script>
         //window.location = "./maintenance.html";
@@ -16,5 +15,15 @@
         ga('create', 'UA-64193734-1', 'auto');
         ga('send', 'pageview');
 
+    </script>
+    <script>
+        var hostname = "{{hostname}}";
+        var port ="{{port}}";
+
+        var hostaddr = "http://"+hostname;
+
+        if( port ) {
+            hostaddr += ":"+port;
+        }
     </script>
 </head>

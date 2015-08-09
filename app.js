@@ -6,6 +6,13 @@ var util    = require('util');
 var hbs     = require('hbs');
 var logger  = require("./lib/logger.js").Logger('app.js', false);
 
+
+
+var defaultResponse = {
+    hostname: process.env.HOSTNAME || "0.0.0.0",
+    port    : process.env.PORT || "3000"
+};
+
 logger.info("Starting...");
 
 //set view manager to Handlebar.js
@@ -15,7 +22,7 @@ hbs.registerHelper('json', function (data) {
     return JSON.stringify(data);
 });
 
-//Loggin for each request.
+//Login for each request.
 app.use(require('morgan')('dev'));
 
 //set up public directory to hold assets.
@@ -23,31 +30,32 @@ app.use('/public', require('serve-static')('public'));
 
 //Expects attributes to be given in the query field of the request.
 
-app.get("/", function(req, res){
-    res.render('index', {});
+app.get("/", function (req, res) {
+    res.render('index', defaultResponse);
 });
 
-app.get("/index", function(req, res){
-    res.render('index', {});
+app.get("/index", function (req, res) {
+    res.render('index', defaultResponse);
 });
 
-app.get("/minedata", function(req, res){
-    res.render('minedata', {});
+
+app.get("/minedata", function (req, res) {
+    res.render('minedata', defaultResponse);
 });
 
-app.get("/student", function(req, res){
-    res.render('student', {});
+app.get("/student", function (req, res) {
+    res.render('student', defaultResponse);
 });
 
-app.get("/student_done", function(req, res){
-    res.render('student_done', {});
+app.get("/student_done", function (req, res) {
+    res.render('student_done', defaultResponse);
 });
 
-app.get("/instructor", function(req, res){
-    res.render('instructor', {});
+app.get("/instructor", function (req, res) {
+    res.render('instructor', defaultResponse);
 });
 
-app.get("/maintenance", function(req, res){
+app.get("/maintenance", function (req, res) {
     res.render('maintenance', {});
 });
 
@@ -235,7 +243,7 @@ app.post("/data/:id", function (req, res) {
 
 });
 
-var server = app.listen(3000, '0.0.0.0', function () {
+var server = app.listen(process.env.PORT || 3000, '0.0.0.0', function () {
     var host = server.address().address;
     var port = server.address().port;
     logger.info("App running at: http://" + host + ":" + port);
