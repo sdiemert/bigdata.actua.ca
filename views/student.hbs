@@ -10,7 +10,7 @@
         s += "<td id='attr-" + rowCount + "-2-data'><input type='text'/></td>"
         s += "<td id='attr-" + rowCount + "-3-data'><input type='text'/></td>"
         s += "<td id='class-" + rowCount + "'><input type='text'/></td>"
-        s += "<td id='remove-" + rowCount + "'><button type='button' class='close' onclick='removeRow(" + rowCount + ");'>"
+        s += "<td class='remove-button' id='remove-" + rowCount + "'><button type='button' class='close' onclick='removeRow(" + rowCount + ");'>"
         s += "<span>&times</span>";
         s += "</td>";
         s += "</tr>";
@@ -160,7 +160,7 @@
         </div>
     </div>
     <div class='row' style="">
-        <div class="col-xs-4">
+        <div class="col-xs-12">
             <button class="btn btn-warning" onclick="addNewRow();">New Data</button>
             <a href="/"><button class="btn btn-danger">Home</button></a>
             <button class='btn btn-success' onclick="submit();">Submit</button>

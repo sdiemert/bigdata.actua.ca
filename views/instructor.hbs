@@ -9,16 +9,16 @@
 
         if (className) {
             $.ajax(hostaddr + '/classifier/' + className, {
-                method: 'POST',
+                method : 'POST',
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded'
                 }
-            }).done(function(/*data, statusText, xhr*/) {
+            }).done(function (/*data, statusText, xhr*/) {
                 $("#success").show();
                 $("#danger").hide();
                 $("#warn").hide();
                 $("#error").hide();
-            }).fail(function(data/*, statusText, xhr*/) {
+            }).fail(function (data/*, statusText, xhr*/) {
                 if (data.status === 403) {
                     $("#success").hide();
                     $("#danger").hide();
@@ -54,23 +54,28 @@
     <div class="row">
         <div class="col-sm-3"></div>
         <div class='col-sm-6'>
-            <p>
-                Enter a code to identify the classifier that your group is creating.
-            </p>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Welcome to the Instructor Page!</h3>
 
-            <p>
-                Save this code and make sure your students enter it when prompted.
-            </p>
+                    <p>This page is intended to allow instructors and/or educators to create a classifiers.</p>
+                    <p>
+                        Enter a code to identify the classifier that your group is creating.
+                    </p>
 
-            <p>
-                Use this code to identify the classifier while testing the classifier as well.
-            </p>
+                    <p>
+                        Save this code and make sure your students enter it when prompted.
+                    </p>
 
-            <p>
-                The code should only consist of numbers and letters (no spaces or punctuation).
-            </p>
-            <br>
-            <br>
+                    <p>
+                        Use this code to identify the classifier while testing the classifier as well.
+                    </p>
+
+                    <p>
+                        The code should only consist of numbers and letters (no spaces or punctuation).
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
     <div class='row' style="">

@@ -32,9 +32,9 @@ body {
 }
 
 #info-panel {
-    height:350px;
-    max-height:350px;
-    min-height:200px;
+    height:410px;
+    max-height:500px;
+    min-height:350px;
 }
 
 .input-table th {
