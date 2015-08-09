@@ -2,6 +2,12 @@
 {{>head}}
 <body>
 <script type="text/javascript">
+
+    //tool tips turned on.
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
     var rowCount = 1;
     function addNewRow() {
         rowCount++;
@@ -10,11 +16,15 @@
         s += "<td id='attr-" + rowCount + "-2-data'><input type='text'/></td>"
         s += "<td id='attr-" + rowCount + "-3-data'><input type='text'/></td>"
         s += "<td id='class-" + rowCount + "'><input type='text'/></td>"
-        s += "<td class='remove-button' id='remove-" + rowCount + "'><button type='button' class='close' onclick='removeRow(" + rowCount + ");'>"
+        s += "<td class='remove-button' id='remove-" + rowCount + "'><button type='button' class='close' onclick='removeRow(" + rowCount + ");' data-toggle='tooltip' data-placement='left' title='Remove this tuple.'>";
         s += "<span>&times</span>";
         s += "</td>";
         s += "</tr>";
         $("#input-table").append(s);
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
     }
 
     function cleanInput(val) {
@@ -127,8 +137,8 @@
         <div class='col-xs-12'>
             <form id="input-form" onkeypress="return event.keyCode !== 13;">
                 <div class="input-group input-group-lg">
-                    <span class="input-group-addon" id="sizing-addon1">Code</span>
-                    <input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon1" id="code">
+                    <span class="input-group-addon" id="sizing-addon1" data-toggle="tooltip" data-placement="top" title="the code for the data set you are adding data to.">Code</span>
+                    <input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon1" id="code" data-toggle="tooltip" data-placement="top" title="the code for the data set you are adding data to.">
                 </div>
 
                 <br>
@@ -148,7 +158,7 @@
                             <td id='attr-1-3-data'><input type='text'/></td>
                             <td id='class-1'><input type='text'/></td>
                             <td id='remove-1' class="remove-button">
-                                <button type="button" class="close" onclick="removeRow(1);">
+                                <button type="button" class="close" onclick="removeRow(1);" data-toggle="tooltip" data-placement="left" title="Remove this tuple.">
                                     <span>&times</span>
                                 </button>
                             </td>
@@ -161,9 +171,9 @@
     </div>
     <div class='row' style="">
         <div class="col-xs-12">
-            <button class="btn btn-warning" onclick="addNewRow();">New Data</button>
-            <a href="/"><button class="btn btn-danger">Home</button></a>
-            <button class='btn btn-success' onclick="submit();">Submit</button>
+            <button class="btn btn-warning" onclick="addNewRow();" data-toggle="tooltip" data-placement="top" title="Add a more data.">New Data</button>
+            <a href="/"><button class="btn btn-danger" data-toggle='tooltip' data-placement="top" title="Go back to the home screen.">Home</button></a>
+            <button class='btn btn-success' onclick="submit();" data-toggle="tooltip" data-placement="top" title="Send your data to the server!">Submit</button>
         </div>
     </div>
 </div>
